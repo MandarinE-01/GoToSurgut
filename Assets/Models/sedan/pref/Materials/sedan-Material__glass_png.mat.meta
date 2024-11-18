@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a92dadc16b5bad442a1107a717d7f072
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 6751
+  packageName: SEDAN
+  packageVersion: 1.2.1
+  assetPath: Assets/sedan/pref/Materials/sedan-Material__glass_png.mat
+  uploadId: 27558

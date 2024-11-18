@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e9a45f31da8dc4849b9bfc3357de5124
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 6751
+  packageName: SEDAN
+  packageVersion: 1.2.1
+  assetPath: Assets/sedan/Materials/wheel2.mat
+  uploadId: 27558
