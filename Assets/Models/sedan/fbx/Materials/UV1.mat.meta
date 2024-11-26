@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: aa46244e57d0f9d4d8cbf6a303da87f4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 6751
+  packageName: SEDAN
+  packageVersion: 1.2.1
+  assetPath: Assets/sedan/fbx/Materials/UV1.mat
+  uploadId: 27558

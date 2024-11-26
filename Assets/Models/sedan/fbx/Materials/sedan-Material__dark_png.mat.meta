@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 27869cba2466da0458b4650f920ca76a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 6751
+  packageName: SEDAN
+  packageVersion: 1.2.1
+  assetPath: Assets/sedan/fbx/Materials/sedan-Material__dark_png.mat
+  uploadId: 27558
