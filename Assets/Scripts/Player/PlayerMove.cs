@@ -20,8 +20,11 @@ public class PlayerMove : NetworkBehaviour
     }
     public override void Spawned()
     {
-        CameraPlayer = Camera.main;
-        CameraPlayer.GetComponent<MoveCamera>().PlayerTarget = transform;
+        if (HasStateAuthority)
+        {
+            CameraPlayer = Camera.main;
+            CameraPlayer.GetComponent<MoveCamera>().PlayerTarget = transform;
+        }
     }
     private void Update()
     {
