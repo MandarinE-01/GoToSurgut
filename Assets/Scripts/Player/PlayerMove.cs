@@ -1,4 +1,5 @@
 using Fusion;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMove : NetworkBehaviour
@@ -13,8 +14,9 @@ public class PlayerMove : NetworkBehaviour
     private CharacterController _cController;
     private bool _isJumping = false;
     private Vector3 _velocity;
-    
-    void Awake()
+    private bool _canMove;
+
+    private void Awake()
     {
         _cController = GetComponent<CharacterController>();
     }
@@ -24,6 +26,7 @@ public class PlayerMove : NetworkBehaviour
         {
             CameraPlayer = Camera.main;
             CameraPlayer.GetComponent<MoveCamera>().PlayerTarget = transform;
+            StartCoroutine(WaitForStart());
         }
     }
     private void Update()
@@ -36,6 +39,7 @@ public class PlayerMove : NetworkBehaviour
     // Update is called once per frame
     public override void FixedUpdateNetwork()
     {
+        if (!_canMove) return;
         if (_cController.isGrounded)
         {
             _velocity = new Vector3(0, -1, 0);
@@ -50,5 +54,11 @@ public class PlayerMove : NetworkBehaviour
             _isJumping = false;
         }
         _cController.Move(move + _velocity * Runner.DeltaTime);
+    }
+
+    IEnumerator WaitForStart()
+    {
+        yield return new WaitForFixedUpdate();
+        _canMove = true;
     }
 }
