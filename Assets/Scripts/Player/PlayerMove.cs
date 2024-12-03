@@ -1,4 +1,5 @@
 using Fusion;
+using Fusion.Addons.Physics;
 using System.Collections;
 using UnityEngine;
 
@@ -6,19 +7,25 @@ public class PlayerMove : NetworkBehaviour
 {
     public Camera CameraPlayer;
 
-    [SerializeField] private float _gravity = 9.81f;
+    [Header("Movement")]
     [SerializeField] private float _playerSpeed = 6f;
-    [SerializeField] private float _junpForce = 5f;
+    [SerializeField] private float _jumpForce = 5f;
 
+    [SerializeField] private float _delayMove = 3f;
+    [SerializeField] private float _runSpeed = 1.3f;
 
-    private CharacterController _cController;
+    [Header("Player")]
+    [SerializeField] private GameObject _head;
+
+    private Rigidbody _rigidbody;
+    private bool _canJump = true;
     private bool _isJumping = false;
-    private Vector3 _velocity;
-    private bool _canMove;
+    private bool _delayMoveBool;
+    Vector3 move;
 
     private void Awake()
     {
-        _cController = GetComponent<CharacterController>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
     public override void Spawned()
     {
@@ -26,39 +33,37 @@ public class PlayerMove : NetworkBehaviour
         {
             CameraPlayer = Camera.main;
             CameraPlayer.GetComponent<MoveCamera>().PlayerTarget = transform;
-            StartCoroutine(WaitForStart());
         }
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _isJumping == false && _cController.isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && _canJump == true)
         {
-            _isJumping = true;
+            _isJumping = false;
         }
     }
     // Update is called once per frame
     public override void FixedUpdateNetwork()
     {
-        if (!_canMove) return;
-        if (_cController.isGrounded)
-        {
-            _velocity = new Vector3(0, -1, 0);
-        }
         Quaternion cameraRotationY = Quaternion.Euler(0, CameraPlayer.transform.rotation.eulerAngles.y, 0);
-        Vector3 move = cameraRotationY * new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * Runner.DeltaTime * _playerSpeed;
-
-        _velocity.y += -_gravity * Runner.DeltaTime;
-        if (_isJumping && _cController.isGrounded)
+        transform.rotation = cameraRotationY;
+        float _verticalInput = Input.GetAxis("Vertical");
+        float _horizontalInput = Input.GetAxis("Horizontal");
+        Vector3 move = new Vector3(_horizontalInput, 0, _verticalInput) * _playerSpeed * Runner.DeltaTime;
+        if (!_isJumping)
         {
-            _velocity.y += _junpForce;
-            _isJumping = false;
+            _rigidbody.AddForce(new Vector3(0, _jumpForce, 0));
+            _isJumping = true; 
         }
-        _cController.Move(move + _velocity * Runner.DeltaTime);
+        transform.Translate(move);
     }
 
-    IEnumerator WaitForStart()
+    private void OnTriggerEnter(Collider other)
     {
-        yield return new WaitForFixedUpdate();
-        _canMove = true;
+        _canJump = true;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        _canJump = false;
     }
 }
