@@ -82,11 +82,12 @@ public class PlayerMove : NetworkBehaviour
     IEnumerator BlockStamin()
     {
         yield return new WaitForSeconds(_delayToRecovery);
-        while (_stamin >= _staminMax / 4)
+        while (_stamin <= _staminMax / 4)
         {
             _stamin += Runner.DeltaTime;
+            yield return null;
         }
-        yield return null;
+        canSpend = true;
     }
     private bool SpendStamin(bool isJumping)
     {
