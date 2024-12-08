@@ -58,7 +58,7 @@ public class PlayerMove : NetworkBehaviour
         }
         Quaternion cameraRotationY = Quaternion.Euler(0, CameraPlayer.transform.rotation.eulerAngles.y, 0);
         Vector3 move = cameraRotationY * new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * Runner.DeltaTime * _playerSpeed;
-        if (Input.GetKey(KeyCode.LeftShift) && canSpend)
+        if (Input.GetKey(KeyCode.LeftShift) && canSpend && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") > 0)
         {
             move *= _runSpeed;
         }
@@ -68,6 +68,10 @@ public class PlayerMove : NetworkBehaviour
         {
             _velocity.y += _jumpForce;
             SpendStamin(true);
+            _isJumping = false;
+        }
+        else
+        {
             _isJumping = false;
         }
         SpendStamin(false);
@@ -89,7 +93,7 @@ public class PlayerMove : NetworkBehaviour
         }
         canSpend = true;
     }
-    private bool SpendStamin(bool isJumping)
+    private void SpendStamin(bool isJumping)
     {
         if (_stamin <= 0)
         {
@@ -99,15 +103,13 @@ public class PlayerMove : NetworkBehaviour
         }
         if (canSpend)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && canSpend && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") > 0)
             {
                 _stamin -= _spendStaminToRun * Runner.DeltaTime;
-                return true;
             }
             else if (isJumping)
             {
                 _stamin -= _spendStaminToJump;
-                return true;
             }
             else
             {
@@ -118,7 +120,6 @@ public class PlayerMove : NetworkBehaviour
                 }
             }
         }
-        return false;
     }
 }
 
